@@ -1,28 +1,28 @@
 package com.company.hr.employee.infrastructure.persistence;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.company.hr.employee.domain.model.*;
-import com.company.hr.infrastructure.persistence.BaseJpaEntity;
+import com.company.hr.infrastructure.persistence.BaseEntity;
 import com.company.hr.organization.domain.model.DepartmentId;
 import com.company.hr.organization.domain.model.PositionId;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 /**
- * 员工JPA实体
+ * 员工持久化实体
  */
-@Entity
-@Table(name = "employees")
+@TableName("employees")
 @Getter
 @Setter
-public class EmployeeJpaEntity extends BaseJpaEntity {
+public class EmployeeEntity extends BaseEntity {
     
-    @Id
+    @TableId(type = IdType.INPUT)
     private String id;
     
-    @Column(unique = true, nullable = false)
     private String employeeNumber;
     
     private String firstName;
@@ -30,7 +30,6 @@ public class EmployeeJpaEntity extends BaseJpaEntity {
     private String idCardNumber;
     private LocalDate birthDate;
     
-    @Enumerated(EnumType.STRING)
     private Gender gender;
     
     private String email;
@@ -42,7 +41,6 @@ public class EmployeeJpaEntity extends BaseJpaEntity {
     private String departmentId;
     private String positionId;
     
-    @Enumerated(EnumType.STRING)
     private EmployeeStatus status;
     
     private LocalDate hireDate;
@@ -52,8 +50,8 @@ public class EmployeeJpaEntity extends BaseJpaEntity {
     /**
      * 从领域模型转换
      */
-    public static EmployeeJpaEntity fromDomain(Employee employee) {
-        EmployeeJpaEntity entity = new EmployeeJpaEntity();
+    public static EmployeeEntity fromDomain(Employee employee) {
+        EmployeeEntity entity = new EmployeeEntity();
         entity.setId(employee.getId().getValue());
         entity.setEmployeeNumber(employee.getEmployeeNumber());
         
@@ -108,4 +106,3 @@ public class EmployeeJpaEntity extends BaseJpaEntity {
         );
     }
 }
-
