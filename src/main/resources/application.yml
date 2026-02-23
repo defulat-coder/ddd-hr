@@ -1,7 +1,10 @@
 spring:
   application:
     name: hr-system
-  
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: Asia/Shanghai
   datasource:
     url: jdbc:h2:mem:hrdb
     driver-class-name: org.h2.Driver
@@ -25,10 +28,7 @@ knife4j:
   setting:
     language: zh_cn
 
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-    time-zone: Asia/Shanghai
+
 
 server:
   port: 8080

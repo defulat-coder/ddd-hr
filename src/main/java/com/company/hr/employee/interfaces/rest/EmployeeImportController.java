@@ -4,6 +4,9 @@ import com.company.hr.employee.acl.external.RecruitmentSystemService;
 import com.company.hr.employee.application.dto.EmployeeDTO;
 import com.company.hr.employee.domain.model.Employee;
 import com.company.hr.infrastructure.web.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/employees/import")
 @RequiredArgsConstructor
+@Tag(name = "员工导入", description = "员工外部系统导入接口")
 public class EmployeeImportController {
     
     private final RecruitmentSystemService recruitmentSystemService;
@@ -23,8 +27,9 @@ public class EmployeeImportController {
      * 通过防腐层处理外部系统集成
      */
     @PostMapping("/from-recruitment/{candidateId}")
+    @Operation(summary = "从招聘系统导入员工")
     public ApiResponse<EmployeeDTO> importFromRecruitment(
-            @PathVariable String candidateId) {
+            @Parameter(description = "候选人ID", required = true) @PathVariable String candidateId) {
         
         // 通过防腐层服务导入，领域模型不会被外部系统污染
         Employee employee = recruitmentSystemService
@@ -34,4 +39,3 @@ public class EmployeeImportController {
         return ApiResponse.success(dto, "从招聘系统导入员工成功");
     }
 }
-
