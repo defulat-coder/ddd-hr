@@ -19,6 +19,14 @@
 - `attendance`：考勤管理（请假申请、审批、余额）
 - `payroll`：薪酬管理（薪资档案、考勤锁定、月度核算）
 
+## 项目实现总结
+- 已实现 DDD 四层结构：`domain`、`application`、`infrastructure`、`interfaces.rest`
+- 已实现 PostgreSQL 持久化，仓储全部基于 MyBatis-Plus（Mapper + PO + Repository）
+- 已实现核心用例：部门创建/查询、员工入转调离、请假申请与审批、薪资档案与月度核算
+- 已实现薪资领域服务：`PayrollCalculationDomainService`，应用层仅做编排
+- 已集成 OpenAPI3 + Knife4j，文档地址：`/doc.html`，OpenAPI 地址：`/v3/api-docs`
+- 已提供数据库初始化脚本：`src/main/resources/schema.sql`、`src/main/resources/data.sql`
+
 ## 编码规范
 - 必须遵守 DDD 分层，不允许跨层直接调用基础设施实现
 - Controller 只调用 Application Service
@@ -36,6 +44,16 @@
 - Application/Domain 的公共方法必须有中文注释说明用途与关键规则
 - 涉及业务约束的代码必须在方法内补充简短中文注释
 - 业务逻辑方法必须写 JavaDoc 方法注释（`/** ... */`），禁止省略
+
+## Swagger 文档规范
+- 必须使用 OpenAPI3 + Knife4j 维护接口文档
+- 控制器类必须标注 `@Tag`
+- 每个接口方法必须标注 `@Operation`
+- 路径参数/查询参数必须标注 `@Parameter`
+- 所有 Command/Request/Response DTO 字段必须标注 `@Schema(description = \"...\")`
+- 接口层只返回 DTO，禁止直接返回 Domain 对象
+- 文档访问地址：`/doc.html`
+- OpenAPI 地址：`/v3/api-docs`
 
 ## 业务规则基线
 - 部门层级不超过 5 级
