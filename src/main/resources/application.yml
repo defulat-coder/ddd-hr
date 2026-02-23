@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: ddd-hr
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ddd_hr}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+knife4j:
+  enable: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+server:
+  port: 8080
