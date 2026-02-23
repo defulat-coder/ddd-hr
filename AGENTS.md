@@ -2,7 +2,7 @@
 
 ## 项目事实
 
-- 技术栈：Java 17、Spring Boot 3、Spring Data JPA、Maven
+- 技术栈：Java 17、Spring Boot 3、MyBatis-Plus、H2、Maven
 - 根包：`com.company.hr`
 - 当前是 **DDD 风格分层**，非严格纯领域实现
 - 限界上下文：`employee`、`organization`、`performance`、`benefit`、`culture`
@@ -25,7 +25,7 @@ src/main/java/com/company/hr/
 1. `interfaces` 只负责入参/出参和协议层，不写业务规则。
 2. `application` 负责用例编排、事务、仓储调用、事件发布。
 3. `domain` 放业务规则、聚合、值对象、领域事件、仓储接口。
-4. `infrastructure` 放 JPA 实体、Repository 实现、外部系统实现。
+4. `infrastructure` 放持久化实体、Mapper、Repository 实现、外部系统实现。
 5. 跨上下文访问优先走 `acl`，不要直接依赖对方应用层实现。
 
 ## 代码变更规则
@@ -40,7 +40,15 @@ src/main/java/com/company/hr/
    - `application/*ApplicationService` 编排
    - `interfaces/rest/*Controller` 暴露接口
 4. 领域事件通过 `shared.event.DomainEventPublisher` 发布。
-5. 不要把 Web/JPA 注解加到 `domain/model`。
+5. 不要把 Web/持久化框架注解加到 `domain/model`。
+
+## Swagger 强制要求（必须遵守）
+
+1. 所有 `interfaces/rest` 下的 Controller 必须加 `@Tag`。
+2. 每个接口方法必须加 `@Operation`。
+3. 所有 `@PathVariable`、`@RequestParam` 必须加 `@Parameter`。
+4. 所有对外 `Command/DTO` 类必须加 `@Schema`（类和字段）。
+5. 新增或修改接口时，Swagger 注解必须同步更新，不允许缺失。
 
 ## 本地命令
 
@@ -48,4 +56,3 @@ src/main/java/com/company/hr/
 mvn clean compile
 mvn test
 ```
-
